@@ -8,26 +8,26 @@ export const storeProject = async (req, res, next) => {
   try{
     const { userId } = req.user
     const user = await User.findById(userId)
-    const { name, description } = req.body
+    const { name, description, participants } = req.body
     const file = req.file
     const schemaValidation = yup.object().shape({
       name: yup.string().required(),
       description: yup.string().required(),
     })
-  
+
     try {
       await schemaValidation.validate({name, description})
     }catch (e) {
       throw new AppError(400, e.message)
     }
-    const participants = []
-    participants.push(user)
+    let parsedParticipants = JSON.parse(participants)
+    parsedParticipants.push(user)
     const project = await Project.create({
       name,
       description,
       leader: user,
-      picture: process.env.BACK_URL + process.env.PORT + '/' + file.path,
-      participants
+      picture: file ? process.env.BACK_URL + process.env.PORT + '/public/' + file.filename : undefined,
+      participants: parsedParticipants
     })
 
     return res.status(200).json(project)
@@ -41,7 +41,7 @@ export const listProjects = async (req, res, next) => {
     const { userId } = req.user
     const projects = await Project.find({
       participants: userId
-    })
+    }).populate('participants')
     
     return res.status(200).json(projects)
   } catch (error) {

@@ -30,10 +30,10 @@ export const storeUser = async (req, res, next) => {
     const user = await User.create({
       name,
       email,
-      password: hashedpass
+      password: hashedpass,
     })
     const token = createToken(user)
-    return res.status(200).json({token, username: user.name})
+    return res.status(200).json({token, username: user.name, userId: user._id, profilePic: user.profilePic})
   } catch (err) {
     next(err)
   }
@@ -64,9 +64,54 @@ export const login = async (req, res, next) => {
 
     // create token
     const token = createToken(user)
-    return res.status(200).json({token, username: user.name})
+    return res.status(200).json({token, username: user.name, userId: user._id, profilePic: user.profilePic})
   } catch (err) {
     next(err)
   }
+}
 
+export const findUsersByLetter = async (req, res, next) => {
+  try {
+    const { match } = req.query
+    const { userId } = req.user
+    const regex = new RegExp(match, 'i')
+    const users = await User.find({
+      $or: [
+        {name: {$regex: regex}, },
+        {email: {$regex: regex}, }
+      ],
+      _id: {$ne: userId}
+    })     
+
+    return res.status(200).json(users)
+  } catch (error) {
+    next(error)
+  }
+}
+export const findUserById = async (req, res, next) => {
+  try {
+    const { userId } = req.params
+    const user = await User.findById(userId)
+
+    return res.status(200).json(user)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const updateUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params
+    const { name, email  } = req.body
+    const file = req.file
+    const user = await User.findByIdAndUpdate(userId, {
+      name,
+      email,
+      profilePic: file ? process.env.BACK_URL + process.env.PORT + '/public/' + file.filename : undefined,
+    }, {new: true})
+    
+    return res.status(200).json(user)
+  } catch(err){
+  next(err)
+  }
 }

@@ -1,5 +1,5 @@
-import './App.css';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from './pages/Login';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,6 +9,7 @@ import Projects from './pages/Projects';
 import ProtectedRoute from './Utils/ProtectedRoute';
 import TopNavbar from './Components/TopNavbar';
 import { useEffect, useState } from 'react';
+import darkScrollbar from '@mui/material/darkScrollbar';
 
 const darkTheme = createTheme({
   palette: {
@@ -26,16 +27,24 @@ const darkTheme = createTheme({
       dark: '#FDFFFC'
     }
   },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: (themeParam) => ({
+        body: themeParam.palette.mode === 'dark' ? darkScrollbar() : null,
+      }),
+    },
+  }
 });
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const navigate = useNavigate()
   const checkToken = () => {
     
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
+      navigate('/projects', {replace: true})
     }
     else {
       setIsLoggedIn(false);
@@ -48,16 +57,14 @@ useEffect(()=>{checkToken()},[])
       <CssBaseline />
       <ToastContainer />
       <div className="App">
-        <Router>
         { isLoggedIn && <TopNavbar checkToken={checkToken}/> }
-          <Routes>
-            {/* <Route index element={<Login  />} /> */}
-            <Route index path="/login" element={<Login checkToken={checkToken}/>} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/projects" element={<Projects />} />
-            </Route>
-          </Routes>
-        </Router>
+        <Routes>
+          <Route index element={<Login checkToken={checkToken} />} />
+          <Route index path="/login" element={<Login checkToken={checkToken}/>} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/projects" element={<Projects />} />
+          </Route>
+        </Routes>
       </div>
     </ThemeProvider>
   );

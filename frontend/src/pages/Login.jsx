@@ -40,6 +40,8 @@ function Login({checkToken}) {
       const { data } = await LoginRequest({email: user.email, password: user.password})
       localStorage.setItem('token', data.token)
       localStorage.setItem('username', data.username)
+      localStorage.setItem('userId', data.userId)
+      localStorage.setItem('profilePic', data.profilePic)
       notify(`Hi ${data.username}! Welcome back!`, 'success')
       checkToken()
       navigate('/projects')
@@ -62,6 +64,8 @@ function Login({checkToken}) {
       const { data } = await Signup({email: registerUser.email, password: registerUser.password, name: registerUser.name})
       localStorage.setItem('token', data.token)
       localStorage.setItem('username', data.username)
+      localStorage.setItem('userId', data.userId)
+      localStorage.setItem('profilePic', data.profilePic)
       notify('Welcome! Here is your projify!', 'success')
       checkToken()
       navigate('/projects')
@@ -73,9 +77,9 @@ function Login({checkToken}) {
       <Box sx={{ width: '30%', minWidth: 400, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
       <Card>
         <CardContent sx={{padding: 3}}>
-          <img src={Logo} alt="" style={{marginBottom: 20}}/>
+          <img src={Logo} alt="" style={{marginBottom: 20, width: '-webkit-fill-available'}}/>
           <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'start', flexDirection: 'column', marginBottom: 4 }}>
-            <h1 className='text-2xl'>Nice to see you here!</h1>
+            <h1 className='text-2xl m-0'>Nice to see you here!</h1>
             <p>Create your account its totally free!</p>
           </Box>
           <form onSubmit={handleSignUp}>
@@ -100,7 +104,7 @@ function Login({checkToken}) {
             </Box>
           </form>
           <Box sx={{marginTop: 3}}>
-            <p><Link onClick={() => setSignUp(false)}>Go back to login</Link></p>
+            <p><Link sx={{cursor: 'pointer'}} onClick={() => setSignUp(false)}>Go back to login</Link></p>
           </Box>
         </CardContent>
           <Wave fill='#DDDDDD'
@@ -120,9 +124,9 @@ function Login({checkToken}) {
     <Box sx={{ width: '30%', minWidth: 400, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
       <Card>
         <CardContent sx={{padding: 3}}>
-          <img src={Logo} alt="" style={{marginBottom: 20}}/>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'start', flexDirection: 'column', marginBottom: 4 }}>
-            <h1 className='text-2xl'>Welcome back!</h1>
+          <img src={Logo} alt="" style={{marginBottom: 20, width: '-webkit-fill-available'}}/>
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'start', flexDirection: 'column'}}>
+            <h1 className='text-2xl' style={{marginBottom: 0}}>Welcome back!</h1>
             <p>Sign in to your account to continue!</p>
           </Box>
           <form onSubmit={handleLogin}>
@@ -139,7 +143,7 @@ function Login({checkToken}) {
             </Box>
           </form>
           <Box sx={{marginTop: 3}}>
-            <p>You don't have an account? <Link onClick={() => setSignUp(true)}>Click here!</Link></p>
+            <p>You don't have an account? <Link sx={{cursor: 'pointer'}} onClick={() => setSignUp(true)}>Click here!</Link></p>
           </Box>
         </CardContent>
           <Wave fill='#DDDDDD'

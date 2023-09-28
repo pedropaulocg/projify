@@ -16,3 +16,26 @@ export function Signup (data) {
     data
   })
 }
+
+export function ListUserByLetter (params) {
+  return request({
+    url: '/user-letter',
+    method: 'get',
+    params
+  })
+}
+
+export function GetUserById (userId) {
+  return request({
+    url: `/user/${userId}`,
+    method: 'get',
+  })
+}
+
+export function UpdateUser (userId, data) {
+  return request({
+    url: `user/${userId}`,
+    method: 'post',
+    data
+  })
+}

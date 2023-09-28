@@ -4,7 +4,6 @@ import axios from 'axios'
 const service = () => {
   const tokenAuth = localStorage.getItem('token')
   const token = 'Bearer ' + tokenAuth
-  console.log(token)
   const api = axios.create({
     baseURL: process.env.REACT_APP_API,
     headers: {

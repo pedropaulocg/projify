@@ -1,16 +1,20 @@
 import mongoose from "mongoose";
+import { string } from "yup";
 
 const Schema = mongoose.Schema
 
 const User = new Schema({
   name: {
-    type: String, required: true
+    type: String, require: true
   },
   email: {
-    type: String, required: true
+    type: String, require: true
   },
   password: {
-    type: String, required: true
+    type: String, require: true
+  },
+  profilePic: {
+    type: String, require: false
   }
 })
 

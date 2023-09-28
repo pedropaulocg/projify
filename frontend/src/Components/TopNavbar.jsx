@@ -8,9 +8,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Avatar } from '@mui/material';
 import { useState } from 'react';
 import { notify } from '../Utils/Notifications';
+import ModalProfile from './ModalProfile';
 
 function TopNavbar({checkToken}) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [profileModal, setProfileModal] = useState(false);
   const open = anchorEl
   const openDropMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,8 +26,8 @@ function TopNavbar({checkToken}) {
     checkToken()
   }
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1, marginBottom: 15 }}>
+      <AppBar position="fixed">
         <Toolbar>
           <img src={logo} alt="logo" width={200}/>
           <Box sx={{ flexGrow: 1, display:'flex', paddingX: 5}}>
@@ -41,18 +43,19 @@ function TopNavbar({checkToken}) {
           </Box>
           <IconButton
             onClick={openDropMenu}>
-             <Avatar alt={localStorage.getItem('username')} src="./assets" />
+             <Avatar alt={localStorage.getItem('username')} src={localStorage.getItem('profilePic') ? localStorage.getItem('profilePic') : './assets'} />
           </IconButton>
           <Menu
             anchorEl={anchorEl}
             open={open}
             onClose={closeDropMenu}
           >
-            <MenuItem onClick={closeDropMenu}>Profile</MenuItem>
+            <MenuItem onClick={() => {setProfileModal(true); closeDropMenu()}}>Profile</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
+      <ModalProfile serProfilemodal={setProfileModal} profileModal={profileModal} />
     </Box>
   );
 }
