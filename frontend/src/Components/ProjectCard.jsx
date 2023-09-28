@@ -2,8 +2,13 @@ import React from 'react'
 import { Typography, Button, Card, CardContent, IconButton, Avatar, AvatarGroup } from '@mui/material'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { useNavigate } from 'react-router-dom';
 
 function ProjectCard({project}) {
+  const navigate = useNavigate()
+  const openProject = () => {
+    navigate(`/kanban/${project._id}`)
+  }
   return (
     <Card sx={{width: '30%', minWidth: 350, margin: 2}}>
       <CardContent sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
@@ -36,7 +41,7 @@ function ProjectCard({project}) {
       </CardContent>
       <CardContent sx={{marginTop: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
         <Button color='error'>leave project</Button>
-        <Button variant='contained'>Open project</Button>
+        <Button variant='contained' onClick={openProject}>Open project</Button>
       </CardContent>
     </Card>
   )

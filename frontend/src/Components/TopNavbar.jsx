@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import logo from '../assets/logo.svg'
 import { TextField, InputAdornment, IconButton, Menu, MenuItem } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import { Avatar } from '@mui/material';
 import { useState } from 'react';
 import { notify } from '../Utils/Notifications';
@@ -31,15 +30,6 @@ function TopNavbar({checkToken}) {
         <Toolbar>
           <img src={logo} alt="logo" width={200}/>
           <Box sx={{ flexGrow: 1, display:'flex', paddingX: 5}}>
-          <TextField
-            id="outlined-start-adornment"
-            fullWidth
-            placeholder='Search project'
-            size='small'
-            InputProps={{
-              endAdornment: <InputAdornment position="end"><SearchIcon /></InputAdornment>,
-            }}
-          />
           </Box>
           <IconButton
             onClick={openDropMenu}>

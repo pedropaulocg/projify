@@ -48,3 +48,19 @@ export const listProjects = async (req, res, next) => {
     next(error)
   }
 }
+
+export const findProjectByName = async (req, res, next) => {
+  try {
+    const { match } = req.query
+    const regex = new RegExp(match, 'i')
+    const projects = await Project.find({
+      $or: [
+        {name: {$regex: regex}, },
+      ],
+    })     
+
+    return res.status(200).json(projects)
+  } catch (error) {
+    next(error)
+  }
+}

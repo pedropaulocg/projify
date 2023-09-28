@@ -8,8 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import Projects from './pages/Projects';
 import ProtectedRoute from './Utils/ProtectedRoute';
 import TopNavbar from './Components/TopNavbar';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import darkScrollbar from '@mui/material/darkScrollbar';
+import Kanban from "./pages/Kanban";
+import { ProjectContext } from './Contexts/ProjectContext';
+
 
 const darkTheme = createTheme({
   palette: {
@@ -39,8 +42,8 @@ const darkTheme = createTheme({
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate()
+  const { projects, setProjects, selectedProject } = useContext(ProjectContext)
   const checkToken = () => {
-    
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
@@ -63,6 +66,7 @@ useEffect(()=>{checkToken()},[])
           <Route index path="/login" element={<Login checkToken={checkToken}/>} />
           <Route element={<ProtectedRoute />}>
             <Route path="/projects" element={<Projects />} />
+            <Route path="/kanban/:projectId" element={<Kanban />} />
           </Route>
         </Routes>
       </div>
