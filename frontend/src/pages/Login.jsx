@@ -9,7 +9,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import Wave from 'react-wavify';
 import Link from '@mui/material/Link';
-import Logo from '../assets/logo.svg'
+import Logo from '../assets/logoDark.svg'
 import { Login as LoginRequest, Signup } from '../services/UserRequest';
 import { notify } from '../Utils/Notifications';
 import { useNavigate } from 'react-router-dom';
@@ -74,11 +74,12 @@ function Login({checkToken}) {
   }
   if (isSignUp) {
     return (
+      <>
       <Box sx={{ width: '30%', minWidth: 400, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
       <Card>
         <CardContent sx={{padding: 3}}>
           <img src={Logo} alt="" style={{marginBottom: 20, width: '-webkit-fill-available'}}/>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'start', flexDirection: 'column', marginBottom: 4 }}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'start', flexDirection: 'column'}}>
             <h1 className='text-2xl m-0'>Nice to see you here!</h1>
             <p>Create your account its totally free!</p>
           </Box>
@@ -107,56 +108,61 @@ function Login({checkToken}) {
             <p><Link sx={{cursor: 'pointer'}} onClick={() => setSignUp(false)}>Go back to login</Link></p>
           </Box>
         </CardContent>
-          <Wave fill='#DDDDDD'
-            paused={false}
-            options={{
-              height: 40,
-              amplitude: 25,
-              speed: 0.15,
-              points: 3
-            }}
-          />
         </Card>
       </Box>
+      <Wave fill='#171f39'
+        paused={false}
+        style={{position: 'absolute', bottom: 0, display: 'flex'}}
+        options={{
+          height: 10,
+          amplitude: 50,
+          speed: 0.15,
+          points: 3
+        }}
+      />
+    </>
     )
   }
   return (
-    <Box sx={{ width: '30%', minWidth: 400, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
-      <Card>
-        <CardContent sx={{padding: 3}}>
-          <img src={Logo} alt="" style={{marginBottom: 20, width: '-webkit-fill-available'}}/>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'start', flexDirection: 'column'}}>
-            <h1 className='text-2xl' style={{marginBottom: 0}}>Welcome back!</h1>
-            <p>Sign in to your account to continue!</p>
-          </Box>
-          <form onSubmit={handleLogin}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-              <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-              <TextField fullWidth label="Email" variant="standard" onChange={e => setUser({...user, email: e.target.value, emailError: false})}/>
+    <>
+      <Box sx={{ width: '30%', minWidth: 400, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
+        <Card sx={{pb: 0}}>
+          <CardContent sx={{padding: 3}}>
+            <img src={Logo} alt="" style={{marginBottom: 20, width: '-webkit-fill-available'}}/>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'start', flexDirection: 'column'}}>
+              <h1 className='text-2xl' style={{marginBottom: 0}}>Welcome back!</h1>
+              <p>Sign in to your account to continue!</p>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-              <LockIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-              <TextField fullWidth type='password' label="Password" variant="standard" onChange={e => setUser({...user, password: e.target.value, passwordError: false})}/>
+            <form onSubmit={handleLogin}>
+              <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+                <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                <TextField fullWidth label="Email" variant="standard" onChange={e => setUser({...user, email: e.target.value, emailError: false})}/>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+                <LockIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                <TextField fullWidth type='password' label="Password" variant="standard" onChange={e => setUser({...user, password: e.target.value, passwordError: false})}/>
+              </Box>
+              <Box sx={{marginTop: 5}}>
+                <Button type='submit' color='primary' fullWidth variant='contained'>Login</Button>
+              </Box>
+            </form>
+            <Box sx={{marginTop: 3}}>
+              <p>You don't have an account? <Link sx={{cursor: 'pointer'}} onClick={() => setSignUp(true)}>Click here!</Link></p>
             </Box>
-            <Box sx={{marginTop: 5}}>
-              <Button type='submit' color='primary' fullWidth variant='contained'>Login</Button>
-            </Box>
-          </form>
-          <Box sx={{marginTop: 3}}>
-            <p>You don't have an account? <Link sx={{cursor: 'pointer'}} onClick={() => setSignUp(true)}>Click here!</Link></p>
-          </Box>
-        </CardContent>
-          <Wave fill='#DDDDDD'
-            paused={false}
-            options={{
-              height: 40,
-              amplitude: 25,
-              speed: 0.15,
-              points: 3
-            }}
-          />
-      </Card>
-    </Box>
+          </CardContent>
+        </Card>
+      </Box>
+      <Wave fill='#171f39'
+        paused={false}
+        style={{position: 'absolute', bottom: 0, display: 'flex'}}
+        options={{
+          height: 10,
+          amplitude: 50,
+          speed: 0.15,
+          points: 3
+        }}
+      />
+    </>
   )
 }
 

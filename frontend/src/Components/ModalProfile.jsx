@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Dialog, Button, DialogActions, DialogTitle, DialogContent, TextField, Avatar, Autocomplete , Box, Typography, List, ListItem, ListItemAvatar, ListItemText, IconButton} from '@mui/material'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { GetUserById, ListUserByLetter, UpdateUser } from '../services/UserRequest';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { notify } from '../Utils/Notifications';
+import { ProjectContext } from '../Contexts/ProjectContext';
 
 function ModalProfile({profileModal, serProfilemodal}) {
   const [previewImage, setPreviewImage] = useState()
+  const { isEdit, setIsEdit } = useContext(ProjectContext)
+
   const [user, setUser] = useState({
     id: '',
     name: '',
@@ -31,7 +34,6 @@ function ModalProfile({profileModal, serProfilemodal}) {
 
   const handleClose = () => {
     serProfilemodal(false)
-    console.log(previewImage)
   }
 
   const handleSubmit = async () => {
@@ -43,11 +45,12 @@ function ModalProfile({profileModal, serProfilemodal}) {
     try {
       const { data } = await UpdateUser(user.id, formData)
       localStorage.setItem('username', data.name)
-      console.log(data.profilePic)
       localStorage.setItem('profilePic', data.profilePic)
       notify('Profile updated!', 'success')
     } catch (error) {
     }
+    setIsEdit(prevState=>!isEdit)
+  
     handleClose()
   }
   const handleMediaChange = (e) => {

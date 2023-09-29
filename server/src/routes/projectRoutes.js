@@ -8,5 +8,7 @@ projectsRoutes.post('/project', auth, upload.single("file"), ProjectController.s
 
 projectsRoutes.get('/project', auth, ProjectController.listProjects)
 
+projectsRoutes.get('/project-name', auth, ProjectController.findProjectByName)
+
 
 export default projectsRoutes

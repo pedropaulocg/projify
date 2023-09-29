@@ -15,3 +15,11 @@ export function ListProjects () {
     method: 'get',
   })
 }
+
+export function ListFilteredProject (params) {
+  return request({
+    url: '/project-name',
+    method: 'get',
+    params
+  })
+}
