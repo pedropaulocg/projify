@@ -34,7 +34,6 @@ function ModalProfile({profileModal, serProfilemodal}) {
 
   const handleClose = () => {
     serProfilemodal(false)
-    console.log(previewImage)
   }
 
   const handleSubmit = async () => {
@@ -46,7 +45,6 @@ function ModalProfile({profileModal, serProfilemodal}) {
     try {
       const { data } = await UpdateUser(user.id, formData)
       localStorage.setItem('username', data.name)
-      console.log(data.profilePic)
       localStorage.setItem('profilePic', data.profilePic)
       notify('Profile updated!', 'success')
     } catch (error) {

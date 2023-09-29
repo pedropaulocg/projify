@@ -6,12 +6,14 @@ import { ListFilteredProject, ListProjects } from '../services/ProjectRequest'
 import { notify } from '../Utils/Notifications';
 import ModalProject from '../Components/ModalProject';
 import { ProjectContext } from '../Contexts/ProjectContext';
+import { useLocation } from 'react-router-dom';
 
 function Projects() {
+  const location = useLocation()
   const { projects, setProjects, isEdit } = useContext(ProjectContext)
   const [projectModal, setProjectModal] = useState(false)
   const [filter, setFilter] = useState('')
-
+  const { setSelectedProject } = useContext(ProjectContext)
   const filterProject = async (e) => {
     e.preventDefault()
     const params = {
@@ -33,6 +35,11 @@ function Projects() {
   useEffect(()=>{
     listProjects()
   }, [isEdit])
+  useEffect(()=>{
+    if(location.pathname === '/projects') {
+      setSelectedProject(null)
+    }
+  }, [])
 
   return (
     <Box element='div' sx={{margin: 'auto', width: '75%'}}>

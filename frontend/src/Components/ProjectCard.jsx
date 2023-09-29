@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Typography, Button, Card, CardContent, IconButton, Avatar, AvatarGroup } from '@mui/material'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { useNavigate } from 'react-router-dom';
+import { ProjectContext } from '../Contexts/ProjectContext'
 
 function ProjectCard({project}) {
   const navigate = useNavigate()
+  const { setSelectedProject } = useContext(ProjectContext)
+
   const openProject = () => {
+    setSelectedProject(project._id)
     navigate(`/kanban/${project._id}`)
   }
   return (
@@ -20,7 +24,7 @@ function ProjectCard({project}) {
         </IconButton>
       </CardContent>
       <CardContent sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-        <Avatar sx={{ width: 140, height: 140, bgcolor: 'transparent'}}>
+        <Avatar sx={{ width: 140, height: 140, bgcolor: '#DDDDD'}}>
           { project.picture ? 
             <img src={project.picture} alt="" style={{width: '-webkit-fill-available'}}/>
             :

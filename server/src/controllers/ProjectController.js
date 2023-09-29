@@ -57,7 +57,7 @@ export const findProjectByName = async (req, res, next) => {
       $or: [
         {name: {$regex: regex}, },
       ],
-    })     
+    }).populate('participants')  
 
     return res.status(200).json(projects)
   } catch (error) {
