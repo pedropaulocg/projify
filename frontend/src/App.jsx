@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Login from './pages/Login';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -40,12 +40,15 @@ const darkTheme = createTheme({
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate()
+  const location = useLocation()
   const { selectedProject, setSelectedProject } = useContext(ProjectContext)
   const checkToken = () => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
-      navigate('/projects', {replace: true})
+      if(location.pathname === '/login' || location.pathname === '/') {
+        navigate('/projects', {replace: true})
+      }
     }
     else {
       setIsLoggedIn(false);

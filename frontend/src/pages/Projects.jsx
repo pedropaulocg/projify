@@ -29,7 +29,7 @@ function Projects() {
       setProjects(data)
 
     } catch(e){
-      notify('Inexpected error', 'error')
+      notify('Something went wrong :(', 'error')
     }
   }
   useEffect(()=>{
@@ -38,6 +38,7 @@ function Projects() {
   useEffect(()=>{
     if(location.pathname === '/projects') {
       setSelectedProject(null)
+      console.log('here')
     }
   }, [])
 

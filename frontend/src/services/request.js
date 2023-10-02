@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import axios from 'axios'
+import { notify } from '../Utils/Notifications';
 
 const service = () => {
   const tokenAuth = localStorage.getItem('token')
@@ -16,19 +17,15 @@ const service = () => {
     response => response,
     error => {
       if (error.response) {
-        toast.error(error.response.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          });
+        notify(error.response.data.message, 'error')
       }
-      if (error.response.status === 403)
-      return Promise.reject(error)
+      if (error.response.status === 403) {
+        window.location.href = "http://localhost:3000/login"
+        localStorage.clear()
+        notify(error.response.data.message, 'error')
+        return Promise.reject(error)
+      }
+
     }
   )
 
