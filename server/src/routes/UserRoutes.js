@@ -13,7 +13,7 @@ userRoutes.get("/user-letter", auth, UserController.findUsersByLetter)
 
 userRoutes.get("/user/:userId", auth, UserController.findUserById)
 
-userRoutes.post("/user/:userId", auth, upload.single('file'),  UserController.updateUser )
+userRoutes.put("/user/:userId", auth, upload.single('file'),  UserController.updateUser )
 
 
 export default userRoutes

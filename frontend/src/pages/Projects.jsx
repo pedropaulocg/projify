@@ -14,6 +14,7 @@ function Projects() {
   const [projectModal, setProjectModal] = useState(false)
   const [filter, setFilter] = useState('')
   const { setSelectedProject } = useContext(ProjectContext)
+  const [editProject, setEditProject] = useState()
   const filterProject = async (e) => {
     e.preventDefault()
     const params = {
@@ -38,9 +39,13 @@ function Projects() {
   useEffect(()=>{
     if(location.pathname === '/projects') {
       setSelectedProject(null)
-      console.log('here')
     }
   }, [])
+
+  const handleEditModal = (project) => {
+    setEditProject(project)
+    setProjectModal(true)
+  }
 
   return (
     <Box element='div' sx={{margin: 'auto', width: '75%'}}>
@@ -64,11 +69,11 @@ function Projects() {
       <Grid container sx={{margin: 'auto', width: '100%'}} justifyContent={'start'}>
         {projects.map(item => (
           <Grid lg={4} md={6} xs={12} key={item._id}>
-            <ProjectCard project={item} style={{margin: 10}} />
+            <ProjectCard project={item} listProjects={listProjects} handleEditModal={handleEditModal}/>
           </Grid>
         ))}
       </Grid>
-      <ModalProject setProjectModal={setProjectModal} projectModal={projectModal} listProjects={listProjects}/>
+      <ModalProject setProjectModal={setProjectModal} projectModal={projectModal} listProjects={listProjects} editProject={editProject} setEditProject={setEditProject}/>
     </Box>
   )
 }

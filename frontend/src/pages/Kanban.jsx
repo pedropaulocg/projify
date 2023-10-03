@@ -1,14 +1,14 @@
-import { Box, Typography, TextField, InputAdornment, IconButton, Select, MenuItem, InputLabel ,FormControl, Button, Card } from '@mui/material'
+import { Box, Typography, TextField, InputAdornment, IconButton, Button, Card } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { ProjectContext } from '../Contexts/ProjectContext'
 import SearchIcon from '@mui/icons-material/Search'
-import CircleIcon from '@mui/icons-material/Circle';
 import KanbanBoard from '../Components/KanbanBoard';
 import { useParams } from 'react-router-dom';
 import { ListBoards, CreateBoard } from '../services/BoardRequest'
 import { MuiColorInput } from 'mui-color-input'
 import CloseIcon from '@mui/icons-material/Close';
 import { notify } from '../Utils/Notifications';
+import PrioritySelect from '../Components/PrioritySelect';
 
 
 function Kanban() {
@@ -72,24 +72,11 @@ function Kanban() {
               }}
             />
         </form>
-        <FormControl sx={{ m: 1, minWidth: 200 }} size='small'>
-          <InputLabel id='priority'>Priority</InputLabel>
-          <Select
-            labelId='priority'
-            label='Priority'
-            >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}><CircleIcon sx={{fontSize: 10, mr: 1, color: 'green'}}/> Low</MenuItem>
-            <MenuItem value={20}><CircleIcon sx={{fontSize: 10, mr: 1, color: 'yellow'}}/> Medium</MenuItem>
-            <MenuItem value={30}><CircleIcon sx={{fontSize: 10, mr: 1, color: 'red'}}/> High</MenuItem>
-          </Select>
-        </FormControl>
+        <PrioritySelect />
       </Box>
-      <Box sx={{display: 'flex', mt: 5, gap: 3, overflowX: 'auto', flexWrap: 'nowrap', alignItems: 'start'}}>
+      <Box sx={{display: 'flex', mt: 5, gap: 3, overflowX: 'auto', flexWrap: 'nowrap', alignItems: 'start', padding: 1}}>
         { boards && boards.length > 0 ? boards.map(item => {
-          return <KanbanBoard board={item}/>
+          return <KanbanBoard key={item._id} board={item}/>
         }) : <p>No boards yet</p>}
         <Card sx={{bgcolor: '#EAEFF5',width: 300, padding: 2, transition: '.5s', height: isCreate ? '175px' : '68px', minWidth: 300}}>
           {

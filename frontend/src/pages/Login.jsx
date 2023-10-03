@@ -30,11 +30,9 @@ function Login({checkToken}) {
   })
   async function handleLogin (e){
     e.preventDefault()
-    for(let field in user) {
-      if (user[field] === '') {
-        notify("Invalid fields!", 'error')
-        return
-      }
+    if(Object.values(user).includes("")){
+      notify("Invalid fields!", 'error')
+      return
     }
     try {
       const { data } = await LoginRequest({email: user.email, password: user.password})
@@ -75,7 +73,7 @@ function Login({checkToken}) {
   if (isSignUp) {
     return (
       <>
-      <Box sx={{ width: '30%', minWidth: 400, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
+      <Box sx={{ width: '30%', minWidth: 400, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 999 }}>
       <Card>
         <CardContent sx={{padding: 3}}>
           <img src={Logo} alt="" style={{marginBottom: 20, width: '-webkit-fill-available'}}/>
@@ -125,7 +123,7 @@ function Login({checkToken}) {
   }
   return (
     <>
-      <Box sx={{ width: '30%', minWidth: 400, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
+      <Box sx={{ width: '30%', minWidth: 400, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',  zIndex: 999 }}>
         <Card sx={{pb: 0}}>
           <CardContent sx={{padding: 3}}>
             <img src={Logo} alt="" style={{marginBottom: 20, width: '-webkit-fill-available'}}/>

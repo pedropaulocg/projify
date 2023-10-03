@@ -19,6 +19,9 @@ const Project = new Schema({
   },
   picture: {
     type: String
+  },
+  isActive: {
+    type: Boolean, default: true
   }
 },
 {

@@ -6,12 +6,13 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Projects from './pages/Projects';
 import ProtectedRoute from './Utils/ProtectedRoute';
-import TopNavbar from './Components/TopNavbar';
 import { useContext, useEffect, useState } from 'react';
 import Kanban from "./pages/Kanban";
 import { ProjectContext } from './Contexts/ProjectContext';
-import SideMenu from "./Components/SideMenu";
+import SideMenu from "./layout/SideMenu";
+import TopNavbar from './layout/TopNavbar';
 import './App.css'
+import { ConfirmProvider } from 'material-ui-confirm'
 
 const darkTheme = createTheme({
   palette: {
@@ -62,18 +63,20 @@ useEffect(()=>{
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <ToastContainer />
-      <div className={selectedProject ? 'sideMenuFlex' : ''}>
-        { (isLoggedIn && !selectedProject) && <TopNavbar checkToken={checkToken}/> }
-        { selectedProject && <SideMenu checkToken={checkToken}/> }
-        <Routes>
-          <Route index element={<Login checkToken={checkToken} />} />
-          <Route index path="/login" element={<Login checkToken={checkToken}/>} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/kanban/:projectId" element={<Kanban />} />
-          </Route>
-        </Routes>
-      </div>
+      <ConfirmProvider>
+        <div className={selectedProject ? 'sideMenuFlex' : ''}>
+          { (isLoggedIn && !selectedProject) && <TopNavbar checkToken={checkToken}/> }
+          { selectedProject && <SideMenu checkToken={checkToken}/> }
+          <Routes>
+            <Route index element={<Login checkToken={checkToken} />} />
+            <Route index path="/login" element={<Login checkToken={checkToken}/>} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/kanban/:projectId" element={<Kanban />} />
+            </Route>
+          </Routes>
+        </div>
+      </ConfirmProvider>
     </ThemeProvider>
   );
 }

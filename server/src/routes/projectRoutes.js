@@ -10,5 +10,12 @@ projectsRoutes.get('/project', auth, ProjectController.listProjects)
 
 projectsRoutes.get('/project-name', auth, ProjectController.findProjectByName)
 
+projectsRoutes.get('/project-users/:projectId', auth, ProjectController.listProjectParticipants)
+
+projectsRoutes.put('/project/:projectId', auth, ProjectController.editProject)
+
+projectsRoutes.put('/project-leave/:projectId', auth, ProjectController.leaveProject)
+
+projectsRoutes.put('/project-status/:projectId', auth, ProjectController.deactivateProject)
 
 export default projectsRoutes

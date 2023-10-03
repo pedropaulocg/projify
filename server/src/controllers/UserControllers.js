@@ -57,7 +57,7 @@ export const login = async (req, res, next) => {
       email
     })
     // verify user
-    if (!user) throw new AppError(404, "Invalid credentials")
+    if (!user) throw new AppError(404, "User doesn't exist")
     // verify password
     const match = await argon2.verify(user.password, password, process.env.SALT)
     if (!match) throw new AppError(400, "Invalid credentials")

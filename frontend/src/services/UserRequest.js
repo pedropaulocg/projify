@@ -35,7 +35,7 @@ export function GetUserById (userId) {
 export function UpdateUser (userId, data) {
   return request({
     url: `user/${userId}`,
-    method: 'post',
+    method: 'put',
     data
   })
 }

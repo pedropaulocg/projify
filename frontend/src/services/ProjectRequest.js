@@ -23,3 +23,34 @@ export function ListFilteredProject (params) {
     params
   })
 }
+
+export function ListProjectParticipants (projectId) {
+  return request({
+    url: `/project-users/${projectId}`,
+    method: 'get',
+  })
+}
+
+export function EditProject (projectId, data) {
+  return request({
+    url: `/project/${projectId}`,
+    method: 'put',
+    data
+  })
+}
+
+export function LeaveProject (projectId) {
+  return request({
+    url: `/project-leave/${projectId}`,
+    method: 'put',
+  })
+}
+
+export function ChangeProjectStatus (projectId) {
+  return request({
+    url: `/project-status/${projectId}`,
+    method: 'put',
+  })
+}
+
+

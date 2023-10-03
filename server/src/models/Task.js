@@ -7,7 +7,7 @@ const Task = new Schema({
     type: String, required: true
   },
   description: {
-    type: String, required: true
+    type: String, required: false
   },
   board: {
     type: Schema.Types.ObjectId, ref: 'boards', required: true
@@ -15,7 +15,7 @@ const Task = new Schema({
   project: {
     type: Schema.Types.ObjectId, ref: 'projects', required: true
   },
-  creator: {
+  reporter: {
     type: Schema.Types.ObjectId, ref: 'users', required: true
   },
   assigned: {
@@ -27,6 +27,9 @@ const Task = new Schema({
   timer: {
     type: Number, required: false
   },
+  priority: {
+    type: Number, required: false
+  }
 },
 {
   timestamps: true
