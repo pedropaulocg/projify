@@ -39,7 +39,7 @@ export const listBoards = async (req, res, next) => {
     const { projectId } = req.params
     const boards = await Board.find({
       project: projectId
-    })
+    }).sort('position')
 
     return res.status(200).json(boards)
   } catch(err){

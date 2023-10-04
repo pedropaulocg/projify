@@ -5,6 +5,7 @@ import { ListUserByLetter } from '../services/UserRequest';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { EditProject, StoreProject } from '../services/ProjectRequest';
 import { notify } from '../Utils/Notifications';
+import StarIcon from '@mui/icons-material/Star';
 
 function ModalProject({projectModal, setProjectModal, listProjects, editProject, setEditProject}) {
   const [users, setUsers] = useState([])
@@ -28,6 +29,7 @@ function ModalProject({projectModal, setProjectModal, listProjects, editProject,
     if(editProject) {
       console.log(editProject.participants)
       setParticipants(editProject.participants)
+      setProject(editProject)
     }
   }, [editProject])
 
@@ -181,11 +183,13 @@ function ModalProject({projectModal, setProjectModal, listProjects, editProject,
           <List sx={{maxHeight: 200}}>
             {participants.length > 0 ? participants.map((item, idx) => (
               <ListItem key={item._id} secondaryAction={
+                !(item._id === editProject.leader) &&
                 <IconButton edge="end" onClick={() => removeParticipant(idx)} >
                   <DeleteIcon />
                 </IconButton>
               }>
-                <ListItemAvatar>
+                <ListItemAvatar sx={{display: 'flex', alignItems: 'center', gap: 1}}>
+                {item._id === editProject.leader && <StarIcon/>}
                   <Avatar src={item.profilePic ? item.profilePic : './assets'} alt={item.name}/>
                 </ListItemAvatar>
                 <ListItemText sx={{flex: 10}} primary={item.name} secondary={item.email}/>
@@ -195,7 +199,7 @@ function ModalProject({projectModal, setProjectModal, listProjects, editProject,
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Create</Button>
+          <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
     )

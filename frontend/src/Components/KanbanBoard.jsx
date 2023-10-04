@@ -4,8 +4,9 @@ import CircleIcon from '@mui/icons-material/Circle'
 import AddIcon from '@mui/icons-material/Add';
 import ModalTask from './ModalTask';
 import { useParams } from 'react-router-dom';
-import { ListTasks } from '../services/Taskservice';
+import { ChangeCardBoard, ListTasks } from '../services/Taskservice';
 import { format } from 'date-fns'
+
 function KanbanBoard({board}) {
   const [taskModal, setTaskModal] = useState(false)
   const [tasks, setTasks] = useState()
@@ -16,7 +17,6 @@ function KanbanBoard({board}) {
     const { _id: boardId } = board
     const { data } = await ListTasks(projectId, boardId)
     setTasks(data)
-    console.log(data)
   }
   useEffect(() => {
     listCards()
@@ -26,18 +26,43 @@ function KanbanBoard({board}) {
     setTask(selectedTask)
     setTaskModal(true)
   }
+  const startDragEv = (e) => {
+    e.dataTransfer.clearData()
+    console.log(e.dataTransfer.types)
+    e.dataTransfer.setData('text/plain', e.target.id)
+  }
+  const handleDrop = async (e) => {
+    e.preventDefault()
+    const taskId = e.dataTransfer.getData('text')
+    const data = {
+      taskId,
+      destiantionBoard: board._id
+    }
+    await ChangeCardBoard(data)
+    listCards()
+  }
+  const handleDragEnd = (e) => {
+    const taskCopy = [...tasks]
+    const taskId = e.dataTransfer.getData('text')
+    const index = taskCopy.findIndex(item => item._id === taskId)
+    taskCopy.splice(index, 1)
+    setTasks(taskCopy)
+  }
   return (
-    <Box>
+    <Box component='div' 
+      onDragEnter={e => e}
+      onDragLeave={e => e}
+      onDragOver={e => { e.preventDefault() }}
+      onDrop={handleDrop}
+    >
       <Card sx={{bgcolor: '#EAEFF5',width: 300, padding: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: `5px solid ${board.color}`}}>
         <Typography variant='h6'>{board.name}</Typography>
-        <Avatar sx={{width: 30, height: 30}}>
-          2
-        </Avatar>
+        {tasks && tasks.length}
       </Card>
-      <Card sx={{bgcolor: '#EAEFF5', mt: 1, py: 2, px: 0.5, height: '60vh'}}>
+      <Card sx={{bgcolor: '#EAEFF5', mt: 1, py: 2, px: 0.5, height: '60vh', overflowY: 'auto'}}>
         {tasks && tasks.length > 0 ?
         tasks.map(item => (
-          <Card sx={{padding: 1, width: '100%', mt: 1}} onClick={() => handleTaskDetail(item)}>
+          <Card id={item._id} sx={{padding: 1, width: '100%', mt: 1, cursor: 'pointer'}} onClick={() => handleTaskDetail(item)} component={'div'} onDragStart={startDragEv} onDragEnd={handleDragEnd} draggable={true}>
             <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
               <Box sx={{display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Typography variant='h6'>{item.name}</Typography>

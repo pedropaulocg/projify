@@ -12,7 +12,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import BoardSelect from './BoardSelect';
 import { useParams } from 'react-router-dom';
-import { CreateTask } from '../services/Taskservice';
+import { ChangeCardBoard, CreateTask } from '../services/Taskservice';
 import parse from 'html-react-parser';
 import CircleIcon from '@mui/icons-material/Circle'
 import { format } from 'date-fns';
@@ -44,6 +44,14 @@ function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, set
     listCards()
     handleClose()
   };
+  const handleBoardChange = async (e) => {
+    const data = {
+      taskId: task._id,
+      destiantionBoard: e.target.value._id
+    }
+    await ChangeCardBoard(data)
+    notify('Card board updated.', 'success')
+  }
   if (task) {
     return (
       <Dialog open={taskModal} onClose={handleClose} fullWidth maxWidth={'lg'}>
@@ -56,14 +64,14 @@ function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, set
                   {task.name}
                 </Typography>
               </Box>
-              <Box sx={{border: '1px solid #EAEFF5', borderRadius: 2, px: 2}}>
+              <Box sx={{borderRadius: 2, px: 2}}>
                 { parse(task.description)}
               </Box>
             </Box>
           </Grid>
           <Grid lg={3} sx={{display: 'flex', flexDirection: 'column', alignItems: 'end'}}>
             <Box sx={{display: 'flex', alignItems: 'cneter', flexDirection: 'column', gap: 1}}>
-              <BoardSelect value={task.board} sx={{m: 1}}/> 
+              <BoardSelect defultValue={task.board} sx={{m: 1}} handleChange={handleBoardChange}/> 
               <Box>
                 <Typography sx={{mb: 1}}>
                   Reporter:

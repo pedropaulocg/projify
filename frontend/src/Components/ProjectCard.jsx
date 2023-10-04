@@ -26,7 +26,7 @@ function ProjectCard({project, listProjects, handleEditModal}) {
   const { setSelectedProject } = useContext(ProjectContext)
 
   const openProject = () => {
-    setSelectedProject(project._id)
+    setSelectedProject(project)
     navigate(`/kanban/${project._id}`)
   }
 

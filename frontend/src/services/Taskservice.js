@@ -14,3 +14,11 @@ export function ListTasks (projectId, boardId) {
     method: 'get',
   })
 }
+
+export function ChangeCardBoard (data) {
+  return request({
+    url: `/task-board`,
+    method: 'put',
+    data
+  })
+}

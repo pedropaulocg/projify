@@ -8,5 +8,7 @@ taskRoutes.get('/task/:projectId/:boardId', auth, TaskController.listTaskPerBoar
 
 taskRoutes.post('/task/:projectId/:boardId', auth, TaskController.storeTask)
 
+taskRoutes.put('/task-board', auth, TaskController.changeTaskBoard)
+
 
 export default taskRoutes

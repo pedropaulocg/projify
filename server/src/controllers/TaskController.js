@@ -53,3 +53,16 @@ export const listTaskPerBoard = async (req, res, next) => {
     next(err)
   }
 }
+
+export const changeTaskBoard = async (req, res, next) => {
+  try {
+    const { destiantionBoard, taskId } = req.body
+    const task = await Task.findOneAndUpdate(new mongoose.Types.ObjectId(taskId),{
+      board: new mongoose.Types.ObjectId(destiantionBoard)
+    })
+
+    return res.status(200).json(task)
+  } catch(err){
+    next(err)
+  }
+}

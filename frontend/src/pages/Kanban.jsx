@@ -9,14 +9,16 @@ import { MuiColorInput } from 'mui-color-input'
 import CloseIcon from '@mui/icons-material/Close';
 import { notify } from '../Utils/Notifications';
 import PrioritySelect from '../Components/PrioritySelect';
+import BoardModal from '../Components/BoardModal';
 
 
 function Kanban() {
-  const { setSelectedProject } = useContext(ProjectContext)
+  const { setSelectedProject, selectedProject } = useContext(ProjectContext)
   // const project = projects.find(item => item._id === selectedProject)
   const params = useParams()
   const [boards, setBoards] = useState()
   const [isCreate, setIsCreate] = useState(false)
+  const [boardModal, setBoardModal] = useState(false)
   const [newBoard, setNewBoard] = useState({
     name: '',
     color: ''
@@ -32,7 +34,9 @@ function Kanban() {
   }, [])
 
   useEffect(() => {
-    setSelectedProject(params.projectId)
+    if(!selectedProject) {
+      setSelectedProject(params.projectId)
+    }
   },[])
 
   const handleBoardCreation = async (e) => {
@@ -61,18 +65,21 @@ function Kanban() {
           Kanban view
         </Typography>
       </Box>
-      <Box sx={{mt: 3, display: 'flex', alignItems: 'center', width: '100%'}}>
-        <form>
-          <TextField
-              id="outlined-start-adornment"
-              label='Search task'
-              size='small'
-              InputProps={{
-                endAdornment: <InputAdornment position="end"><IconButton type='submit'><SearchIcon /></IconButton></InputAdornment>,
-              }}
-            />
-        </form>
-        <PrioritySelect />
+      <Box sx={{mt: 3, display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between'}}>
+        <Box component='div' sx={{display: 'flex', alignItems: 'center', gap: 1}}>
+          <form>
+            <TextField
+                id="outlined-start-adornment"
+                label='Search task'
+                size='small'
+                InputProps={{
+                  endAdornment: <InputAdornment position="end"><IconButton type='submit'><SearchIcon /></IconButton></InputAdornment>,
+                }}
+              />
+          </form>
+          <PrioritySelect />
+        </Box>
+        <Button variant='contained' onClick={() => setBoardModal(true)}>Manage boards</Button>
       </Box>
       <Box sx={{display: 'flex', mt: 5, gap: 3, overflowX: 'auto', flexWrap: 'nowrap', alignItems: 'start', padding: 1}}>
         { boards && boards.length > 0 ? boards.map(item => {
@@ -102,6 +109,7 @@ function Kanban() {
           }
         </Card>
       </Box>
+      <BoardModal boardModal={boardModal} setBoardModal={setBoardModal} boards={boards}/>
     </Box>
   )
 }

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { ListBoards } from '../services/BoardRequest';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 
-function BoardSelect({value, handleChange, variant, sx}) {
+function BoardSelect({value, handleChange, variant, sx, defaultValue}) {
   const [ boards, setBoards ] = useState([])
   const { projectId } = useParams()
 
@@ -25,6 +25,7 @@ function BoardSelect({value, handleChange, variant, sx}) {
         labelId='priority'
         label='Priority'
         value={value ? value : ""}
+        defaultValue={defaultValue}
         onChange={handleChange}
         variant={variant ? variant : 'outlined'}
         >

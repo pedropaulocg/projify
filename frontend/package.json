@@ -21,6 +21,7 @@
     "material-ui-confirm": "^3.0.9",
     "mui-color-input": "^2.0.0",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
