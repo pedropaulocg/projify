@@ -22,3 +22,18 @@ export function ChangeCardBoard (data) {
     data
   })
 }
+
+export function UpdateTask (taskId, data) {
+  return request({
+    url: `/task/${taskId}`,
+    method: 'put',
+    data
+  })
+}
+
+export function DeleteTask (taskId) {
+  return request({
+    url: `/task/${taskId}`,
+    method: 'delete'
+  })
+}

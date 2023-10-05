@@ -10,7 +10,6 @@ import { notify } from '../Utils/Notifications';
 import { format } from 'date-fns'
 import InfoIcon from '@mui/icons-material/Info';
 import EditIcon from '@mui/icons-material/Edit';
-import ModalProject from './ModalProject'
 
 function ProjectCard({project, listProjects, handleEditModal}) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -23,10 +22,11 @@ function ProjectCard({project, listProjects, handleEditModal}) {
   };
   const confirm = useConfirm()
   const navigate = useNavigate()
-  const { setSelectedProject } = useContext(ProjectContext)
+  const { setSelectedProject, setProjectLeader } = useContext(ProjectContext)
 
   const openProject = () => {
-    setSelectedProject(project)
+    setSelectedProject(project._id)
+    setProjectLeader(project.leader)
     navigate(`/kanban/${project._id}`)
   }
 

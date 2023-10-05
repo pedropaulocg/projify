@@ -39,6 +39,13 @@ export function EditProject (projectId, data) {
   })
 }
 
+export function GetProjectById (projectId) {
+  return request({
+    url: `/project/${projectId}`,
+    method: 'get',
+  })
+}
+
 export function LeaveProject (projectId) {
   return request({
     url: `/project-leave/${projectId}`,

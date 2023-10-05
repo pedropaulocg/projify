@@ -15,3 +15,18 @@ export function CreateBoard (projectId, data) {
     data
   })
 }
+
+export function UpdateBoard (boardId, data) {
+  return request({
+    url: `/board/${boardId}`,
+    method: 'put',
+    data
+  })
+}
+
+export function DeleteBoard (boardId) {
+  return request({
+    url: `/board/${boardId}`,
+    method: 'delete',
+  })
+}

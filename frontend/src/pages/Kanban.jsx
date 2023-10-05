@@ -109,7 +109,7 @@ function Kanban() {
           }
         </Card>
       </Box>
-      <BoardModal boardModal={boardModal} setBoardModal={setBoardModal} boards={boards}/>
+      <BoardModal boardModal={boardModal} setBoardModal={setBoardModal} boards={boards} listBoards={listBoards}/>
     </Box>
   )
 }

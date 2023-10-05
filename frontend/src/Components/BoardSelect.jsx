@@ -24,7 +24,7 @@ function BoardSelect({value, handleChange, variant, sx, defaultValue}) {
       <Select
         labelId='priority'
         label='Priority'
-        value={value ? value : ""}
+        value={value}
         defaultValue={defaultValue}
         onChange={handleChange}
         variant={variant ? variant : 'outlined'}

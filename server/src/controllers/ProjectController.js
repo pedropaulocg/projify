@@ -135,3 +135,14 @@ export const listProjectParticipants = async (req, res, next) => {
     next(err)
   }
 }
+
+export const findProjectById = async (req, res, next) => {
+   try {
+    const { projectId } = req.params
+    const project = await Project.findOne(new mongoose.Types.ObjectId(projectId))
+
+    return res.status(200).json(project)
+  } catch(err){
+   next(err)
+  }
+}

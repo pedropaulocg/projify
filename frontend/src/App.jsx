@@ -13,6 +13,7 @@ import SideMenu from "./layout/SideMenu";
 import TopNavbar from './layout/TopNavbar';
 import './App.css'
 import { ConfirmProvider } from 'material-ui-confirm'
+import Dashboard from "./pages/Dashboard";
 
 const darkTheme = createTheme({
   palette: {
@@ -73,6 +74,7 @@ useEffect(()=>{
             <Route element={<ProtectedRoute />}>
               <Route path="/projects" element={<Projects />} />
               <Route path="/kanban/:projectId" element={<Kanban />} />
+              <Route path="/dashboard/:projectId" element={<Dashboard />} />
             </Route>
           </Routes>
         </div>

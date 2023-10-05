@@ -2,3 +2,9 @@
   display: flex;
   align-items: flex-start;
 }
+
+.hoverEdit:hover {
+
+  transition: .2s;
+  background: rgb(240, 240, 240);
+}

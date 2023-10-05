@@ -12,6 +12,8 @@ projectsRoutes.get('/project-name', auth, ProjectController.findProjectByName)
 
 projectsRoutes.get('/project-users/:projectId', auth, ProjectController.listProjectParticipants)
 
+projectsRoutes.get('/project/:projectId', auth, ProjectController.findProjectById)
+
 projectsRoutes.put('/project/:projectId', auth, upload.single('file'),ProjectController.editProject)
 
 projectsRoutes.put('/project-leave/:projectId', auth, ProjectController.leaveProject)

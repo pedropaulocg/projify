@@ -4,7 +4,7 @@ import { ListUserByLetter } from '../services/UserRequest';
 import { useParams } from 'react-router-dom';
 import { ListProjectParticipants } from '../services/ProjectRequest';
 
-function UserAutoComplete({label, value, handleChange}) {
+function UserAutoComplete({label, value, handleChange, defaultValue}) {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
   const { projectId } = useParams()
@@ -26,6 +26,7 @@ function UserAutoComplete({label, value, handleChange}) {
       loading={loading}
       value={value}
       onChange={handleChange}
+      defaultValue={defaultValue}
       renderOption={(props, option) => (
         <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
           <Avatar alt={option.name} src={option.profilePic ? option.profilePic : './assets'} sx={{marginRight: 2}}/>
@@ -43,7 +44,6 @@ function UserAutoComplete({label, value, handleChange}) {
         <TextField
           {...params}
           label={label}
-          helperText="Type the first three letters to find."
           inputProps={{
             ...params.inputProps,
             autoComplete: 'off',

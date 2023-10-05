@@ -66,3 +66,32 @@ export const changeTaskBoard = async (req, res, next) => {
     next(err)
   }
 }
+
+export const updateTask = async (req, res, next) => {
+  try {
+    const { taskId } = req.params
+    const body = req.body
+    const updateObj = {}
+    for(let key in body) {
+      if(body[key] !== undefined) {
+        updateObj[key] = body[key]
+      }
+    }
+    const task = await Task.findOneAndUpdate(new mongoose.Types.ObjectId(taskId), updateObj, {new: true}).populate('reporter').populate('assigned')
+
+    return res.status(200).json(task)
+  } catch(err){
+    next(err)
+  }
+}
+
+export const deleteTask = async (req, res, next) => {
+  try {
+    const { taskId } = req.params
+    await Task.findOneAndDelete(new mongoose.Types.ObjectId(taskId))
+
+    return res.status(200).json({message: 'task deleted'})
+  } catch(err){
+    next(err)
+  }
+}
