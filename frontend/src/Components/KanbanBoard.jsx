@@ -6,14 +6,12 @@ import ModalTask from './ModalTask';
 import { useParams } from 'react-router-dom';
 import { ChangeCardBoard, DeleteTask, ListTasks } from '../services/Taskservice';
 import { format } from 'date-fns'
-import DeleteIcon from '@mui/icons-material/Delete';
-import InfoIcon from '@mui/icons-material/Info';
 import { ProjectContext } from '../Contexts/ProjectContext';
 import { useConfirm } from 'material-ui-confirm';
 import { notify } from '../Utils/Notifications';
 
 
-function KanbanBoard({board}) {
+function KanbanBoard({board, filters}) {
   const confirm = useConfirm()
   const { projectLeader } = useContext(ProjectContext)
   const [taskModal, setTaskModal] = useState(false)
@@ -33,12 +31,15 @@ function KanbanBoard({board}) {
 
   const listCards = async () => {
     const { _id: boardId } = board
-    const { data } = await ListTasks(projectId, boardId)
+    const params = {
+      filters
+    }
+    const { data } = await ListTasks(projectId, boardId, params)
     setTasks(data)
   }
   useEffect(() => {
     listCards()
-  }, [])
+  }, [filters])
 
   const handleTaskDetail = (selectedTask) => {
     setTask(selectedTask)

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { ListBoards } from '../services/BoardRequest';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 
-function BoardSelect({value, handleChange, variant, sx, defaultValue}) {
+function BoardSelect({value, handleChange, variant, sx, defaultValue, handleBlur, blurOnSelect}) {
   const [ boards, setBoards ] = useState([])
   const { projectId } = useParams()
 
@@ -22,11 +22,13 @@ function BoardSelect({value, handleChange, variant, sx, defaultValue}) {
     <FormControl sx={{ ...sx, minWidth: 220 }} size='small'>
       <InputLabel id='priority'>Board</InputLabel>
       <Select
+        blurOnSelect={blurOnSelect}
         labelId='priority'
         label='Priority'
         value={value}
         defaultValue={defaultValue}
         onChange={handleChange}
+        onBlur={handleBlur}
         variant={variant ? variant : 'outlined'}
         >
         <MenuItem value="">

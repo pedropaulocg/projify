@@ -10,6 +10,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { notify } from '../Utils/Notifications';
 import PrioritySelect from '../Components/PrioritySelect';
 import BoardModal from '../Components/BoardModal';
+import UserAutoComplete from '../Components/UserAutoComplete';
+import BoardSelect from '../Components/BoardSelect';
 
 
 function Kanban() {
@@ -23,7 +25,12 @@ function Kanban() {
     name: '',
     color: ''
   })
-  
+  const [filters, setFilters] = useState({
+    name: '',
+    priority: '',
+    assigned: ''
+  })
+
   const listBoards = async () => {
     const { data } = await ListBoards(params.projectId)
     setBoards(data)
@@ -65,25 +72,25 @@ function Kanban() {
           Kanban view
         </Typography>
       </Box>
-      <Box sx={{mt: 3, display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between'}}>
-        <Box component='div' sx={{display: 'flex', alignItems: 'center', gap: 1}}>
-          <form>
-            <TextField
-                id="outlined-start-adornment"
-                label='Search task'
-                size='small'
-                InputProps={{
-                  endAdornment: <InputAdornment position="end"><IconButton type='submit'><SearchIcon /></IconButton></InputAdornment>,
-                }}
-              />
-          </form>
-          <PrioritySelect />
+      <Box sx={{mt: 1, display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between'}}>
+        <Box component={'div'} sx={{mt: 5, display: 'flex', alignItems: 'center'}}>
+          <TextField
+            id="outlined-start-adornment"
+            label='Search task'
+            size='small'
+            InputProps={{
+              endAdornment: <InputAdornment position="end"><IconButton type='submit'><SearchIcon /></IconButton></InputAdornment>,
+            }}
+            onChange={(e) => setFilters({...filters, name: e.target.value})}
+          />
+          <UserAutoComplete label={'Assignee'} handleChange={(e, val) => setFilters({...filters, assigned: val})}/>
+          <PrioritySelect handleChange={(e) => setFilters({...filters, priority: e.target.value})}/>
         </Box>
         <Button variant='contained' onClick={() => setBoardModal(true)}>Manage boards</Button>
       </Box>
       <Box sx={{display: 'flex', mt: 5, gap: 3, overflowX: 'auto', flexWrap: 'nowrap', alignItems: 'start', padding: 1}}>
         { boards && boards.length > 0 ? boards.map(item => {
-          return <KanbanBoard key={item._id} board={item}/>
+          return <KanbanBoard key={item._id} board={item} filters={filters}/>
         }) : <p>No boards yet</p>}
         <Card sx={{bgcolor: '#EAEFF5',width: 300, padding: 2, transition: '.5s', height: isCreate ? '175px' : '68px', minWidth: 300}}>
           {

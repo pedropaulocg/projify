@@ -17,6 +17,7 @@ import AlarmIcon from '@mui/icons-material/Alarm';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import CommentSection from './CommentSection';
 
 function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, setTask}) {
   const { projectId } = useParams()
@@ -143,7 +144,7 @@ function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, set
                   </Box>
                   </>
                   :
-                  <Box component={'div'} onClick={() => setIsEdit({...isEdit, description: true})} className='hoverEdit' sx={{cursor: 'pointer', p: 1, borderRadius: 2, transition: '.2s'}}>{task.description ? parse(task.description) : 'No description'}</Box>
+                  <Box component={'div'} onClick={() => setIsEdit({...isEdit, description: true})} className='hoverEdit' sx={{cursor: 'pointer', p: 1, borderRadius: 2, transition: '.2s', height: 400, overflowY: 'auto'}}>{task.description ? parse(task.description) : 'No description'}</Box>
                 }
               </Box>
             </Box>
@@ -235,6 +236,9 @@ function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, set
           </Grid>
         </Grid>
       </DialogContent>
+      <DialogContent sx={{m: 0, py: 0}}>
+        <CommentSection task={task}/>
+      </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
       </DialogActions>
@@ -272,13 +276,9 @@ function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, set
             </Box>
           </Grid>
           <Grid lg={4} sx={{display: 'flex', flexDirection: 'column', alignItems: 'end'}}>
-            {/* working */}
             <PrioritySelect sx={{m: 1}} value={newTask.priority} handleChange={(e) => setNewTask({...newTask, priority: e.target.value})}/>
-              {/* working */}
             <UserAutoComplete label={'Assignee'} handleChange={(e, val) => setNewTask({...newTask, assigned: val})}/>
-              {/* working */}
             <BoardSelect defaultValue={selectedBoard._id} sx={{m: 1}} handleChange={(e) => setNewTask({...newTask, board: e.target.value})}/> 
-
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker label="End date" slotProps={{ textField: { size: 'small', sx: {width: 220, m: 1 } } }} onChange={(newValue) => setNewTask({...newTask, deadline: new Date(newValue)})} format="DD/MM/YYYY"/>
             </LocalizationProvider>

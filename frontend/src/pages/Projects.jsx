@@ -15,6 +15,7 @@ function Projects() {
   const [filter, setFilter] = useState('')
   const { setSelectedProject } = useContext(ProjectContext)
   const [editProject, setEditProject] = useState()
+  const [isProjectEdit, setIsProjectEdit] = useState(false)
   const filterProject = async (e) => {
     e.preventDefault()
     const params = {
@@ -42,8 +43,9 @@ function Projects() {
     }
   }, [])
 
-  const handleEditModal = (project) => {
+  const handleEditModal = (project, isProjectEdit) => {
     setEditProject(project)
+    setIsProjectEdit(isProjectEdit)
     setProjectModal(true)
   }
 
@@ -73,7 +75,7 @@ function Projects() {
           </Grid>
         ))}
       </Grid>
-      <ModalProject setProjectModal={setProjectModal} projectModal={projectModal} listProjects={listProjects} editProject={editProject} setEditProject={setEditProject}/>
+      <ModalProject isEdit={isProjectEdit} setProjectModal={setProjectModal} projectModal={projectModal} listProjects={listProjects} editProject={editProject} setEditProject={setEditProject}/>
     </Box>
   )
 }

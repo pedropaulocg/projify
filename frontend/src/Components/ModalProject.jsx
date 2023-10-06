@@ -7,7 +7,7 @@ import { EditProject, StoreProject } from '../services/ProjectRequest';
 import { notify } from '../Utils/Notifications';
 import StarIcon from '@mui/icons-material/Star';
 
-function ModalProject({projectModal, setProjectModal, listProjects, editProject, setEditProject}) {
+function ModalProject({projectModal, setProjectModal, listProjects, editProject, setEditProject, isEdit}) {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
   const [previewImage, setPreviewImage] = useState()
@@ -27,7 +27,6 @@ function ModalProject({projectModal, setProjectModal, listProjects, editProject,
 
   useEffect(()=>{
     if(editProject) {
-      console.log(editProject.participants)
       setParticipants(editProject.participants)
       setProject(editProject)
     }
@@ -99,23 +98,33 @@ function ModalProject({projectModal, setProjectModal, listProjects, editProject,
   }
   if (editProject) {
     return (
-      <Dialog open={projectModal} onClose={handleClose} maxWidth={'md'}>
+      <Dialog open={projectModal} onClose={handleClose} fullWidth maxWidth={'md'}>
         <DialogTitle>Edit project</DialogTitle>
         <DialogContent sx={{display: 'flex', justifyContent: 'space-between'}}>
           <DialogContent>
-            <Avatar component="label" sx={{ width: 200, height: 200, cursor: 'pointer' }}>
-              {editProject.picture ? 
-                <img src={previewImage ? previewImage : editProject.picture} alt="" style={{width: '-webkit-fill-available'}}/>
-              : 
-              <>
-                <AddAPhotoIcon />
-              </>
-              }
-              <input type="file" hidden onChange={handleMediaChange} accept='image/*'/>
-            </Avatar>
+            {
+              isEdit ? 
+                <Avatar component="label" sx={{ width: 200, height: 200, cursor: 'pointer' }}>
+                  {editProject.picture ? 
+                    <img src={previewImage ? previewImage : editProject.picture} alt="" style={{width: '-webkit-fill-available'}}/>
+                  : 
+                  <>
+                    <AddAPhotoIcon />
+                  </>
+                  }
+                  <input type="file" hidden onChange={handleMediaChange} accept='image/*'/>
+                </Avatar>
+                  :
+                <Avatar component="label" sx={{ width: 200, height: 200, cursor: 'pointer' }}>
+                  <img src={!editProject ? './assets' : editProject.picture} alt={editProject.name} style={{width: '-webkit-fill-available'}}/>
+                </Avatar>
+            }
           </DialogContent>
-          <DialogContent>
-            <TextField
+          <DialogContent sx={{width: '65%', minWidth: 200}}>
+
+           { 
+            isEdit ?
+              <TextField
               autoFocus
               defaultValue={editProject.name}
               margin="dense"
@@ -126,8 +135,15 @@ function ModalProject({projectModal, setProjectModal, listProjects, editProject,
               variant="standard"
               onChange={e => setProject({...project, name: e.target.value})}
               autoComplete="off"
-            />
-            <TextField
+            /> 
+            :
+            <Typography variant="h5">
+              {editProject.name}
+            </Typography>
+            }
+           { 
+            isEdit ?
+              <TextField
               id="standard-multiline-static"
               label="Description"
               defaultValue={editProject.description}
@@ -136,10 +152,18 @@ function ModalProject({projectModal, setProjectModal, listProjects, editProject,
               variant="standard"
               fullWidth
               onChange={e => setProject({...project, description: e.target.value})}
-            />
+            /> 
+            :
+            <Typography variant="body1" sx={{mt: 2}}>
+              {editProject.description}
+            </Typography>
+            }
+            
           </DialogContent>
         </DialogContent>
         <DialogContent>
+          {
+            isEdit &&
           <Autocomplete
             disableCloseOnSelect
             fullWidth
@@ -175,6 +199,7 @@ function ModalProject({projectModal, setProjectModal, listProjects, editProject,
               />
             )}
           />
+          }
         </DialogContent>
         <DialogContent>
           <Typography variant='h6'>
@@ -183,14 +208,15 @@ function ModalProject({projectModal, setProjectModal, listProjects, editProject,
           <List sx={{maxHeight: 200}}>
             {participants.length > 0 ? participants.map((item, idx) => (
               <ListItem key={item._id} secondaryAction={
-                !(item._id === editProject.leader) &&
+                isEdit &&
+                (!(item._id === editProject.leader) && editProject.leader === localStorage.getItem('userId')) &&
                 <IconButton edge="end" onClick={() => removeParticipant(idx)} >
                   <DeleteIcon />
                 </IconButton>
               }>
                 <ListItemAvatar sx={{display: 'flex', alignItems: 'center', gap: 1}}>
                 {item._id === editProject.leader && <StarIcon/>}
-                  <Avatar src={item.profilePic ? item.profilePic : './assets'} alt={item.name}/>
+                  <Avatar src={item.profilePic ? item.profilePic : './assets'} alt={item.name} sx={{mr: 1}}/>
                 </ListItemAvatar>
                 <ListItemText sx={{flex: 10}} primary={item.name} secondary={item.email}/>
               </ListItem>
@@ -198,8 +224,10 @@ function ModalProject({projectModal, setProjectModal, listProjects, editProject,
           </List>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Save</Button>
+          <Button onClick={handleClose}>Close</Button>
+          {
+            isEdit && <Button onClick={handleSubmit}>Save</Button>
+          }
         </DialogActions>
       </Dialog>
     )

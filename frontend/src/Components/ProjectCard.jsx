@@ -66,8 +66,8 @@ function ProjectCard({project, listProjects, handleEditModal}) {
             open={open}
             onClose={handleCloseMenu}
           >
-            <MenuItem onClick={handleCloseMenu}><InfoIcon sx={{mr: 1}}/>Info</MenuItem>
-            { project.leader === localStorage.getItem('userId') && <MenuItem onClick={() => handleEditModal(project)}><EditIcon sx={{mr: 1}}/>  Edit</MenuItem> }
+            <MenuItem onClick={() => handleEditModal(project, false)}><InfoIcon sx={{mr: 1}}/>Info</MenuItem>
+            { project.leader === localStorage.getItem('userId') && <MenuItem onClick={() => handleEditModal(project, true)}><EditIcon sx={{mr: 1}}/>  Edit</MenuItem> }
           </Menu>
         </div>
       </CardContent>
