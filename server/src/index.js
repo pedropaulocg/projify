@@ -36,3 +36,10 @@ app.listen(port, () =>{
   console.log('Server listen on port ' + port)
 })
 
+// Create GET request
+app.get("/", (req, res) => {
+  res.send("Express on Vercel");
+});
+
+
+export default app
