@@ -132,7 +132,7 @@ function KanbanBoard({board, filters}) {
                 </Typography>
               </Box>
               <Box sx={{display: 'flex', alignItems: 'end', gap: 1}}>
-                <Avatar alt={item.assigned.name} src={item.assigned.profilePic ? item.assigned.profilePic : './assets'}/>
+                {item.assigned && <Avatar alt={item.assigned.name} src={item.assigned.profilePic ? item.assigned.profilePic : './assets'}/>}
                 <CircleIcon  sx={{fontSize: 10, color: item.priority === 1 ? 'green' : item.priority === 2 ? 'orange' : 'red'}}/>
               </Box>
             </Box>

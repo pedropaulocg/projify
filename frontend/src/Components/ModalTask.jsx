@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Dialog, Button, DialogActions, DialogContent, TextField, Avatar ,InputAdornment, Box, Typography,Grid, ListItem, IconButton} from '@mui/material'
+import { Dialog, Button, DialogActions, DialogContent, TextField, Avatar ,InputAdornment, Box, Typography,Grid, ListItem, IconButton, LinearProgress} from '@mui/material'
 import { notify } from '../Utils/Notifications';
 import PrioritySelect from './PrioritySelect';
 import { Editor } from '@tinymce/tinymce-react'
@@ -22,6 +22,7 @@ import CommentSection from './CommentSection';
 function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, setTask}) {
   const { projectId } = useParams()
   const editorRef = useRef(null);
+  const [loading, setLoading] = useState()
   const [newTask, setNewTask] = useState({
     name: '',
     description: '',
@@ -48,17 +49,25 @@ function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, set
     setTask(null)
   }
   const handleSubmit = async () => {
-    await CreateTask(newTask, projectId, newTask.board)
-    notify("Task created successfully", 'success')
-    listCards()
-    handleClose()
+    if (loading) return
+    setLoading(true)
+    try {
+      await CreateTask(newTask, projectId, selectedBoard._id)
+      setLoading(false)
+      notify("Task created successfully", 'success')
+      listCards()
+      handleClose()
+    } catch (error) {      
+    }
   };
   const handleBoardChange = async (e) => {
+    setLoading(true)
     const data = {
       taskId: task._id,
       destiantionBoard: e.target.value._id
     }
     await ChangeCardBoard(data)
+    setLoading(false)
     notify('Card board updated.', 'success')
   }
   const closeEdit = (e) => {{
@@ -73,7 +82,10 @@ function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, set
   const handleTaskUpdate = async (e, field) => {
     e.preventDefault()
     e.stopPropagation()
+    setLoading(true)
+    if (loading) return
     const {data} = await UpdateTask(task._id, updateTask)
+    setLoading(false)
     setUpdateTask(null)
     setIsEdit({...isEdit, [field]: false})
     notify('Task updated', 'success')
@@ -83,6 +95,7 @@ function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, set
   if (task) {
     return (
       <Dialog open={taskModal} onClose={handleClose} fullWidth maxWidth={'lg'}>
+        {loading && <LinearProgress />}
       <DialogContent sx={{p: 4}}>
         <Grid container spacing={3} sx={{margin: 'auto', width: '100%', maxHeight: 600}}>
           <Grid lg={9} sm={12}>
@@ -247,6 +260,7 @@ function ModalTask({taskModal, setTaskModal, selectedBoard, listCards, task, set
   }
   return (
     <Dialog open={taskModal} onClose={handleClose} maxWidth={'xl'}>
+      {loading && <LinearProgress />}
       <DialogContent>
         <Grid container spacing={2} sx={{margin: 'auto', width: '100%'}}>
           <Grid lg={8} sm={12}>

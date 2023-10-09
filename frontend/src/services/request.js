@@ -25,7 +25,6 @@ const service = () => {
         notify(error.response.data.message, 'error')
         return Promise.reject(error)
       }
-
     }
   )
 

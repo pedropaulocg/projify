@@ -15,6 +15,7 @@ import './App.css'
 import { ConfirmProvider } from 'material-ui-confirm'
 import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
+import Chat from "./pages/Chat";
 
 const darkTheme = createTheme({
   palette: {
@@ -40,7 +41,9 @@ const darkTheme = createTheme({
   },
 });
 
+
 function App() {
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate()
   const location = useLocation()
@@ -77,6 +80,7 @@ useEffect(()=>{
               <Route path="/kanban/:projectId" element={<Kanban />} />
               <Route path="/dashboard/:projectId" element={<Dashboard />} />
               <Route path="/tasks/:projectId" element={<Tasks />} />
+              <Route path="/chat/:projectId" element={<Chat />} />
             </Route>
           </Routes>
         </div>

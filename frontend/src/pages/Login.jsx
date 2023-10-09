@@ -13,10 +13,11 @@ import Logo from '../assets/logoDark.svg'
 import { Login as LoginRequest, Signup } from '../services/UserRequest';
 import { notify } from '../Utils/Notifications';
 import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 function Login({checkToken}) {
   const navigate = useNavigate()
-
+  const [loading, setLoading] = useState()
   const [isSignUp, setSignUp] = useState(false)
   const [user, setUser] = useState({
     email: '',
@@ -35,19 +36,24 @@ function Login({checkToken}) {
       return
     }
     try {
+      setLoading(true)
       const { data } = await LoginRequest({email: user.email, password: user.password})
+      setLoading(false)
       localStorage.setItem('token', data.token)
       localStorage.setItem('username', data.username)
       localStorage.setItem('userId', data.userId)
       localStorage.setItem('profilePic', data.profilePic)
       notify(`Hi ${data.username}! Welcome back!`, 'success')
       checkToken()
+      setLoading(false)
       navigate('/projects')
     } catch(e) {
+      setLoading(false)
       console.log(e)
     }
   }
   async function handleSignUp (e){
+    setLoading(true)
     e.preventDefault()
     for(let field in registerUser) {
       if (registerUser[field] === '') {
@@ -65,10 +71,13 @@ function Login({checkToken}) {
       localStorage.setItem('userId', data.userId)
       localStorage.setItem('profilePic', data.profilePic)
       notify('Welcome! Here is your projify!', 'success')
+      setLoading(false)
       checkToken()
       navigate('/projects')
     } catch(e) {
+      setLoading(false)
     }
+    setLoading(false)
   }
   if (isSignUp) {
     return (
@@ -99,7 +108,7 @@ function Login({checkToken}) {
               <TextField fullWidth type='password' label="Confirm password" variant="standard" onChange={e => setRegisterUser({...registerUser, confirmPass: e.target.value})}/>
             </Box>
             <Box sx={{marginTop: 5}}>
-              <Button type='submit' color='primary' fullWidth variant='contained'>Sign up!</Button>
+              <Button disabled={loading} type='submit' color='primary' fullWidth variant='contained'>{loading ? <CircularProgress /> : 'Sign up!'}</Button>
             </Box>
           </form>
           <Box sx={{marginTop: 3}}>
@@ -141,7 +150,7 @@ function Login({checkToken}) {
                 <TextField fullWidth type='password' label="Password" variant="standard" onChange={e => setUser({...user, password: e.target.value, passwordError: false})}/>
               </Box>
               <Box sx={{marginTop: 5}}>
-                <Button type='submit' color='primary' fullWidth variant='contained'>Login</Button>
+                <Button disabled={loading} type='submit' color='primary' fullWidth variant='contained'>{loading ? <CircularProgress /> : 'Login'}</Button>
               </Box>
             </form>
             <Box sx={{marginTop: 3}}>

@@ -10,6 +10,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { notify } from '../Utils/Notifications';
 import { ProjectContext } from '../Contexts/ProjectContext';
+import ChatIcon from '@mui/icons-material/Chat';
 
 function SideMenu({checkToken}) {
   const {setSelectedProject, selectedProject} = useContext(ProjectContext)
@@ -63,6 +64,14 @@ function SideMenu({checkToken}) {
                 <DashboardIcon sx={active === 'dashboard' ? {color: '#f58e4b'} : {color: '#fff'}}/>
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => handleNavigation('chat')} sx={active === 'chat' ? {color: '#f58e4b'} : {}}>
+              <ListItemIcon>
+                <ChatIcon sx={active === 'chat' ? {color: '#f58e4b'} : {color: '#fff'}}/>
+              </ListItemIcon>
+              <ListItemText primary="Chat"/>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
