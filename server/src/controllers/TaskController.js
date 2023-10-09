@@ -13,11 +13,10 @@ export const storeTask = async (req, res, next) => {
     const schemaValidation = yup.object().shape({
       name: yup.string().required(),
       board: yup.string().required(),
-      assigned: yup.string().required()
     })
 
     try {
-      await schemaValidation.validate({name, board})
+    await schemaValidation.validate({name, board})
     }catch (e) {
       throw new AppError(400, e.message)
     }

@@ -13,11 +13,10 @@ export const storeProject = async (req, res, next) => {
     const file = req.file
     const schemaValidation = yup.object().shape({
       name: yup.string().required(),
-      description: yup.string().required(),
     })
 
     try {
-      await schemaValidation.validate({name, description})
+      await schemaValidation.validate({name})
     }catch (e) {
       throw new AppError(400, e.message)
     }
@@ -27,7 +26,7 @@ export const storeProject = async (req, res, next) => {
       name,
       description,
       leader: user,
-      picture: file ? process.env.BACK_URL + process.env.PORT + '/public/' + file.filename : undefined,
+      picture: file ? process.env.BACK_URL + '/public/' + file.filename : undefined,
       participants: parsedParticipants
     })
 
@@ -48,7 +47,7 @@ export const editProject = async (req, res, next) => {
       name,
       description,
       leader,
-      picture: file ? process.env.BACK_URL + process.env.PORT + '/public/' + file.filename : undefined,
+      picture: file ? process.env.BACK_URL + '/public/' + file.filename : undefined,
       participants: parsedParticipants
     })
 

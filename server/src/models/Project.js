@@ -15,7 +15,7 @@ const Project = new Schema({
     type: Schema.Types.ObjectId, ref: 'users', required: true
   },
   description: {
-    type: String, required: true
+    type: String, required: false
   },
   picture: {
     type: String

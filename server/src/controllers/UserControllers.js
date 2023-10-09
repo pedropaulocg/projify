@@ -4,6 +4,8 @@ import { AppError } from "../middlewares/errorHandler.js"
 import * as yup from 'yup';
 import 'dotenv/config'
 import { createToken } from "../helpers/CreateToken.js";
+import { getGlobals } from 'common-es'
+const { __dirname } = getGlobals(import.meta.url)
 
 export const storeUser = async (req, res, next) => {
   try {
@@ -107,9 +109,9 @@ export const updateUser = async (req, res, next) => {
     const user = await User.findByIdAndUpdate(userId, {
       name,
       email,
-      profilePic: file ? process.env.BACK_URL + process.env.PORT + '/public/' + file.filename : undefined,
+      profilePic: file ? process.env.BACK_URL + '/public/' + file.filename : undefined,
     }, {new: true})
-    
+    console.log(req.file)
     return res.status(200).json(user)
   } catch(err){
   next(err)
