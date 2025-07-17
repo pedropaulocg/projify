@@ -184,7 +184,8 @@ export const taskPeruserChart = async (req, res, next) => {
     const data = {}
     for(let i = 0; i < participants.length; i++) {
       const count = await Task.count({
-        assigned: participants[i]._id
+        assigned: participants[i]._id,
+        project: new mongoose.Types.ObjectId(projectId)
       })
       data[participants[i].name] = count
     }
