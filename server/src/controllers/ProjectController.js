@@ -26,7 +26,7 @@ export const storeProject = async (req, res, next) => {
       name,
       description,
       leader: user,
-      picture: file ? process.env.BACK_URL + '/public/' + file.filename : undefined,
+      picture: file ? process.env.BACK_URL + ':' + process.env.PORT + '/public/' + file.filename : undefined,
       participants: parsedParticipants
     })
 
@@ -47,7 +47,7 @@ export const editProject = async (req, res, next) => {
       name,
       description,
       leader,
-      picture: file ? process.env.BACK_URL + '/public/' + file.filename : undefined,
+      picture: file ? process.env.BACK_URL + ':' + process.env.PORT + '/public/' + file.filename : undefined,
       participants: parsedParticipants
     })
 
