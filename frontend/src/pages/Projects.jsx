@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Box, Typography, Button, Grid, TextField, InputAdornment, IconButton, FormControlLabel, Checkbox } from '@mui/material'
+import { Box, Typography, Button, Grid, TextField, InputAdornment, IconButton, FormControlLabel, Checkbox, Chip } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import ProjectCard from '../Components/ProjectCard'
 import { ListFilteredProject, ListProjects } from '../services/ProjectRequest'
@@ -53,7 +53,7 @@ function Projects() {
     <Box element='div' sx={{margin: 'auto', width: '75%'}}>
       <Box sx={{display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', marginY: 5}}>
         <Typography variant="h4">
-          Project list
+          Project List <Chip label={projects.length} color='primary' />
         </Typography>
         <Button variant='contained' onClick={() => setProjectModal(true)}>Create project</Button>
       </Box>
